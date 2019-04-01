@@ -12,8 +12,11 @@ class Player {
 	}
 
 	draw(){
-		imageMode(CENTER);
+		// imageMode(CENTER);
 		image(this.img, this.x, this.y, this.size*1.5, this.size);
+		// noFill();
+		// stroke(255);
+		// rect(this.x, this.y, this.size*1.5, this.size);
 		drawCircleAnima()
 		// fill(0,255,0);
 		// textSize(this.size);
@@ -22,14 +25,17 @@ class Player {
 		// text("/", this.x-17, this.y+12);
 		// text("\\", this.x+17, this.y+12);
 		// text("_", this.x, this.y+7);
+		if(!isDead){
+			this.move();
+		}
 	}
 
 	move(){
 		if (keyIsDown(68) || keyIsDown(39)) {	// RIGHT
-			if(this.x >= width){
-				this.width = width;
+			if(this.x >= width-(this.size*1.5)){
+				this.x = width-(this.size*1.5);
 				if(circleTimer || circleAnimaArr.length === 0){
-					circleAnimaArr.push({x: this.x, y: this.y, sz: 2, fade: 100});
+					circleAnimaArr.push({x: this.x+(this.size*1.5), y: this.y+(this.size/2), sz: 2, fade: 100});
 					circleTimer= false;
 				}
 			}else{
@@ -40,7 +46,7 @@ class Player {
 			if(this.x <= 0){
 				this.x = 0;
 				if(circleTimer || circleAnimaArr.length === 0){
-					circleAnimaArr.push({x: this.x, y: this.y, sz: 2, fade: 100});
+					circleAnimaArr.push({x: this.x, y: this.y+(this.size/2), sz: 2, fade: 100});
 					circleTimer= false;
 				}
 			} else {
@@ -48,10 +54,10 @@ class Player {
 			}
 		}
 		if (keyIsDown(83) || keyIsDown(40)) {	// DOWN
-			if(this.y >= height){
-				this.y = height;
+			if(this.y >= height-this.size){
+				this.y = height-this.size;
 				if(circleTimer || circleAnimaArr.length === 0){
-					circleAnimaArr.push({x: this.x, y: this.y, sz: 2, fade: 100});
+					circleAnimaArr.push({x: this.x+((this.size*1.5)/2), y: this.y+this.size, sz: 2, fade: 100});
 					circleTimer= false;
 				}
 			} else {
@@ -62,7 +68,7 @@ class Player {
 			if(this.y <= 0){
 				this.y = 0;
 				if(circleTimer || circleAnimaArr.length === 0){
-					circleAnimaArr.push({x: this.x, y: this.y, sz: 2, fade: 100});
+					circleAnimaArr.push({x: this.x+((this.size*1.5)/2), y: this.y, sz: 2, fade: 100});
 					circleTimer= false;
 				}
 			} else {
@@ -76,7 +82,7 @@ class Player {
 		if(keyIsPressed){
 			gravity < 1.5 ? gravity += 0.01 : gravity = 1.5;
 		} else {
-			gravity > 0.1 ? gravity -= 0.02 : gravity = 0.1;
+			gravity > 0.1 ? gravity -= 0.015 : gravity = 0.1;
 		}
 	}
 

@@ -6,8 +6,11 @@ var aspectRatio;
 var size;
 
 var gravity = 0.1;
+var score = 0;
 
 var starsArr = [];
+var cubeArr = [];
+	var cubeTimer = 0
 
 var player;
 var playerImg;

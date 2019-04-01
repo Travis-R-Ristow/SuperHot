@@ -4,18 +4,27 @@ class Block{
 		this.x = random(0, width);
 		this.y = -size/100;
 		this.sz = size/100;
-		this.spd = 2;
+		this.spd = random(2,5);
 	}
 
 	draw(){
+		fill(255,0,0);
 		rect(this.x, this.y, this.sz, this.sz);
+		if(!isDead){
+			this.move();
+		}
 	}
 
 
 	move(){
-		this.y += this.spd*gravity;
-		if(collision(this, player)){
-			isDead = true;
+		if(!isDead){
+			this.y += this.spd*gravity;
+			if(collision(this, player)){
+				isDead = true;
+			}
+			// if(this.y > height){
+				// this = null;
+			// }
 		}
 	}
 
@@ -42,5 +51,15 @@ class Block{
 
 	getH(){
 		return this.sz;
+	}
+
+	screenResize(){
+		var offSetX = this.x/this.sz;
+		var offSetY = this.y/this.sz;
+
+		this.sz = size/100;
+
+		this.x = offSetX*this.sz;
+		this.y = offSetY*this.sz;
 	}
 }
