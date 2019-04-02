@@ -3,11 +3,7 @@ class Block{
 	constructor(){
 		this.x = random(0, width);
 		this.y = -size/100;
-		if(score < 100){
-			this.sz = size/100;
-		} else {
-			this.sz = size/random(20,150);
-		}
+		this.sz = size/100;
 		this.spd = random(2,5);
 	}
 
@@ -47,7 +43,7 @@ class Block{
 		}
 
 	getW(){
-		return this.sz;
+		return this.sz*1.5;
 	}
 		setSz(sz){
 			this.sz = sz;

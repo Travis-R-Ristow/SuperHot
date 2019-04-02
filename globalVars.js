@@ -9,8 +9,9 @@ var gravity = 0.1;
 var score = 0;
 
 var starsArr = [];
+var powerUpArr = [];
 var cubeArr = [];
-	var cubeTimer = 0
+	var cubeTimer = 0;
 
 var player;
 var playerImg;
