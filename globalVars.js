@@ -9,7 +9,9 @@ var gravity = 0.1;
 var score = 0;
 
 var starsArr = [];
-var powerUpArr = [];
+var powerUp;
+	var powerUpTimer = 0;
+	var currentPower;
 var cubeArr = [];
 	var cubeTimer = 0;
 

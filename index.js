@@ -1,4 +1,16 @@
-
+// $( document ).ready(() => {
+//         var elem = document.documentElement;
+//         console.log(elem);
+//         if (elem.requestFullscreen) {
+//             elem.requestFullscreen();
+//         } else if (elem.mozRequestFullScreen) { /* Firefox */
+//             elem.mozRequestFullScreen();
+//         } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+//             elem.webkitRequestFullscreen();
+//         } else if (elem.msRequestFullscreen) { /* IE/Edge */
+//             elem.msRequestFullscreen();
+//         }
+// });
 
 
 function setup() {
@@ -15,15 +27,21 @@ function setup() {
     // setInterval(() => {
     //     cubeArr.push(new Block());
     // }, 100);
+    var rando = random(15000,25000);
     setInterval(() => {
-        powerUpArr.push({
-        x: 400,
-        y: 400,
-        size: 1,
-        fade: 150
-    });
-    }, 500);
+        addPowerUp();
+        rando = random(15000,25000);
+    }, rando);
 
+    powerUp = {
+        x: random(size/50, width-size/50),
+        y: random(size/50, height-size/50),
+        size: size/150,
+        arr: [],
+        // type: 'none'
+        type: 'DoublePoints'
+        // type: 'StarEater'
+    }
 }
 
 
@@ -50,18 +68,73 @@ function draw() {
 
 
 function powerUps(){
-    for(var p of powerUpArr){
-        fill(51, 153, 255, p.fade)
-        ellipse(p.x, p.y, p.size, p.size);
-        p.size+=0.5;
-        if(p.fade > 0){
-            p.fade--;
-        } else {
-            arrPop(powerUpArr, powerUpArr.indexOf(p));
+    if(powerUp.type == 'DoublePoints'){    // BLUE
+        for(var p of powerUp.arr){
+            fill(51, 153, 255, p.fade)
+            ellipse(powerUp.x, powerUp.y, p.size, p.size);
+            p.size++;
+            if(p.fade > 0){
+                p.fade--;
+            } else {
+                arrPop(powerUp.arr, powerUp.arr.indexOf(p));
+            }
         }
+        fill(51, 153, 255);
+        ellipse(powerUp.x, powerUp.y, powerUp.size, powerUp.size);
+        if(collision(powerUp, player)) {
+            powerUp.type = 'none';
+            currentPower = 'DoublePoints';
+            setTimeout(() => {
+                currentPower = false;
+            },5000);
+        }
+        powerUpTimer--;
+
+    } else if(powerUp.type == 'StarEater'){    // GOLD
+        for(var p of powerUp.arr){
+            fill(255, 215, 0, p.fade)
+            ellipse(powerUp.x, powerUp.y, p.size, p.size);
+            p.size++;
+            if(p.fade > 0){
+                p.fade--;
+            } else {
+               arrPop(powerUp.arr, powerUp.arr.indexOf(p))
+            }
+        }
+        fill(255, 215, 0);
+        ellipse(powerUp.x, powerUp.y, powerUp.size, powerUp.size);
+        if(collision(powerUp, player)) {
+            powerUp.type = 'none';
+            currentPower = 'StarEater';
+            setTimeout(() => {
+                currentPower = false;
+            },5000);
+        }
+        powerUpTimer--;
+    }
+
+    if (powerUpTimer < 0) {
+        powerUpTimer = 25;
+        powerUp.arr.push({
+            size: 0,
+            fade: 100
+        });
     }
 }
 
+
+function addPowerUp() {
+    if (powerUp.type == 'none') {
+        powerUp.x = random(size/50, width-size/50);
+        powerUp.y = random(size/50, height-size/50);
+        var rando = floor(random(2));
+        if(rando == 0){
+            powerUp.type = 'DoublePoints';
+        }else if(rando == 1){
+            powerUp.type = 'StarEater';
+        }
+    }
+}
 
 
 function drawCubes(){
@@ -69,7 +142,10 @@ function drawCubes(){
          cube.draw();
          if(cube.getY() > height){
              arrPop(cubeArr, cubeArr.indexOf(cube));
-             score ++;
+            if(currentPower=='DoublePoints'){
+                score++;
+            }
+            score++;
          }
     }
 }
@@ -106,7 +182,7 @@ function starFall(){
             star.x = random(width);
         }
 
-        if(score > 300){
+        if(currentPower=='StarEater'){
             if(collision(star, player)){
                 score++;
                 arrPop(starsArr, starsArr.indexOf(star))
@@ -119,7 +195,14 @@ function starFall(){
 function drawScore() {
     textSize(size/40);
     fill(255)
-    text(floor(score), size/10,size/25);
+    text(floor(score), width-size/20,size/40);
+
+    if (currentPower == 'DoublePoints') {
+        text('DoublePoints', size/10,size/40);
+    }
+    if (currentPower == 'StarEater') {
+        text('StarEater', size/10,size/40);
+    }
 }
 
 
@@ -153,3 +236,17 @@ function windowResized() {
     }
 }
 
+
+/* View in fullscreen */
+function openFullscreen() {
+    var elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+    }
+}
