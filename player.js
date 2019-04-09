@@ -17,7 +17,7 @@ class Player {
 		// noFill();
 		// stroke(255);
 		// rect(this.x, this.y, this.size*1.5, this.size);
-		drawCircleAnima()
+		drawCircleAnima();
 		// fill(0,255,0);
 		// textSize(this.size);
 		// text("^", this.x, this.y-12);
@@ -27,6 +27,11 @@ class Player {
 		// text("_", this.x, this.y+7);
 		if(!isDead){
 			this.move();
+		}
+		if(currentPower=='SpeedBooter'){
+			this.spd = 2;
+		}else {
+			this.spd = 1;
 		}
 	}
 
