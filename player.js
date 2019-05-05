@@ -9,14 +9,15 @@ class Player {
 		this.size = size/50;
 		this.spd = 1;
 		this.img = playerImg;
+		document.cookie = "Score=0;";
 	}
 
 	draw(){
 		// imageMode(CENTER);
 		image(this.img, this.x, this.y, this.size*1.5, this.size);
-		// noFill();
-		// stroke(255);
-		// rect(this.x, this.y, this.size*1.5, this.size);
+		noFill();
+		stroke(255);
+		rect(this.x, this.y, this.size*1.5, this.size);
 		drawCircleAnima();
 		// fill(0,255,0);
 		// textSize(this.size);

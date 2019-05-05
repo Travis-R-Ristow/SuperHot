@@ -14,9 +14,6 @@
 
 
 function setup() {
-    console.log(document.cookie);
-    document.cookie = "score=100;";
-    console.log(document.cookie);
 	size = windowWidth/1.2;
 	aspectRatio = (displayWidth) / (displayHeight);
     createCanvas(size, (size/aspectRatio)).parent('game');
@@ -44,7 +41,7 @@ function setup() {
         type: 'none'
         // type: 'DoublePoints'
         // type: 'StarEater'
-        // type: 'SpeedBooter'
+        // type: 'SpeedBooster'
     }
 }
 
@@ -119,7 +116,7 @@ function powerUps(){
             },5000);
         }
         powerUpTimer--;
-    } else if(powerUp.type == 'SpeedBooter'){    // BLUE
+    } else if(powerUp.type == 'SpeedBooster'){    // BLUE
         for(var p of powerUp.arr){
             fill(51, 153, 255, p.fade);
             ellipseMode(CENTER);
@@ -136,7 +133,7 @@ function powerUps(){
         ellipse(powerUp.x, powerUp.y, powerUp.size, powerUp.size);
         if(collision(powerUp, player)) {
             powerUp.type = 'none';
-            currentPower = 'SpeedBooter';
+            currentPower = 'SpeedBooster';
             setTimeout(() => {
                 currentPower = false;
             },5000);
@@ -164,7 +161,7 @@ function addPowerUp() {
         }else if(rando == 1){
             powerUp.type = 'StarEater';
         }else if(rando == 2){
-            powerUp.type = 'SpeedBooter';
+            powerUp.type = 'SpeedBooster';
         }
     }
 }
@@ -239,8 +236,8 @@ function drawScore() {
     if (currentPower == 'StarEater') {
         text('StarEater', size/10,size/40);
     }
-    if (currentPower == 'SpeedBooter') {
-        text('SpeedBooter', size/10,size/40);
+    if (currentPower == 'SpeedBooster') {
+        text('SpeedBooster', size/10,size/40);
     }
 }
 
